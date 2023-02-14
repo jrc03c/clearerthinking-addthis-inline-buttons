@@ -141,6 +141,11 @@
       src="https://programs.clearerthinking.org/autotrack-master/autotrack.js"></script>
 
     <script>
+      // This script injects the inline AddThis.com buttons at the end of the
+      // program. Feel free to remove this entire <script> element if you
+      // decide that the inline buttons no longer make sense!
+      // — Josh @ February 14, 2023
+
       // Listen for inject-addthis-script trigger
       $(window).on("inject-addthis-script", () => {
         const interval = setInterval(() => {
@@ -157,9 +162,12 @@
 
           // temporarily remove the floating addthis container because it
           // conflicts with the target element
+          let leftFloatingAddThisContainer
+
           try {
-            const leftFloatingAddThisContainer =
-              document.getElementsByClassName("addthis_floating_style")[0]
+            leftFloatingAddThisContainer = document.getElementsByClassName(
+              "addthis_floating_style"
+            )[0]
 
             if (leftFloatingAddThisContainer) {
               leftFloatingAddThisContainer.parentElement.removeChild(
@@ -217,17 +225,19 @@
           // when the script loads, wait for a brief moment and then add the
           // floating container back into the page at the same location from
           // which it was previously removed
-          script.addEventListener("load", () => {
-            setTimeout(() => {
-              const mainContainer =
-                document.getElementsByClassName("container")[0]
+          if (leftFloatingAddThisContainer) {
+            script.addEventListener("load", () => {
+              setTimeout(() => {
+                const mainContainer =
+                  document.getElementsByClassName("container")[0]
 
-              document.body.insertBefore(
-                leftFloatingAddThisContainer,
-                mainContainer
-              )
-            }, 10)
-          })
+                document.body.insertBefore(
+                  leftFloatingAddThisContainer,
+                  mainContainer
+                )
+              }, 10)
+            })
+          }
         }, 100)
       })
     </script>
